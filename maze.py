@@ -1,7 +1,7 @@
 import random
 
-width = 5
-height = 5
+maze_width = 4
+maze_height = 4
 
 path = [ ]
 stack = [ ]
@@ -29,12 +29,14 @@ directions.append(down)
 directions.append(left)
 directions.append(right)
 
+filled = 1
 start_pos = Vector2(0, 0)
 
-def generate_maze(position):
-    stack.append(position)
+def generate_maze(position, width, height, filled):
+    if position not in stack:
+        stack.append(position)
     path.append(position)
-    if len(path) == (width*height):
+    if filled == 25:
         return 
     else:
         options = [ ]
@@ -44,22 +46,20 @@ def generate_maze(position):
             if result.x < 0 or result.x > width or result.y < 0 or \
                 result.y > height:
                 pass
+            elif result in path:
+                pass
             else:
                 options.append(result)
-        for option in options:
-            if option in path:
-                options.remove(option)
         if len(options) == 0:
-            stack.pop()
-            generate_maze(stack[-1])
+            if len(stack) != 1:
+                stack.pop()
+                print(f"stack popped new gen maze with pos of {stack[-1]}")
+                return generate_maze(stack[-1], width, height, filled)
+            else:
+                return generate_maze(stack[-1], width, height, filled)
         else:
             new_pos = random.choice(options)
-            generate_maze(new_pos)
+            filled += 1
+            return generate_maze(new_pos, width, height, filled)
 
-generate_maze(start_pos)
-# for vector in path:
-#     print(vector)
-for pos in stack:
-    print(pos)
-print(len(stack))
-print(len(path))
+generate_maze(start_pos, maze_width, maze_height, filled)
