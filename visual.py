@@ -6,6 +6,7 @@ from maze import *
 maze_tile_size = 10
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+BLUE = (0, 0, 255)
 screen_width = (int(maze_tile_size * 1.5) * maze_width)
 screen_height = (int(maze_tile_size * 1.5) * maze_height)
 
@@ -22,7 +23,10 @@ while True:
     #draws tiles in path
     for i in range(len(path)):
         tile_pos = Vector2((path[i].x*maze_tile_size)+ ((maze_tile_size/2)*path[i].x), (path[i].y*maze_tile_size)+((maze_tile_size/2)*path[i].y))
-        pygame.draw.rect(screen, WHITE, pygame.Rect(tile_pos.x, tile_pos.y, maze_tile_size , maze_tile_size), 0)
+        if i == 0:
+            pygame.draw.rect(screen, BLUE, pygame.Rect(tile_pos.x, tile_pos.y, maze_tile_size , maze_tile_size), 0)
+        else:
+            pygame.draw.rect(screen, WHITE, pygame.Rect(tile_pos.x, tile_pos.y, maze_tile_size , maze_tile_size), 0)
         #draws walls or lack thereof between tiles
         if i <= len(path)-2:
             j = path[i+1]-path[i]

@@ -38,7 +38,7 @@ directions.append(right)
 #variable to count number of total tiles we've visited
 filled = 1
 #starts at top left
-start_pos = Vector2(0, 0)
+start_pos = Vector2(random.randint(0, maze_width), random.randint(0, maze_height))
 
 def generate_maze(position, width, height, filled):
     """function that generates recursively generates a maze that visits 
